@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "cl0udnine socal network",
   "scripts": {
+    "build": "cp ./node_modules/alpinejs/dist/cdn.min.js ./public/dist/",
     "watch": "tailwindcss -i ./assets/styles/style.css -o ./public/dist/main.css --watch"
   },
   "author": "BatchCloud (Sebastian Steininger)",
