@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<ruleset name="SprykerProject">
+    <description>https://timebutler-monitor.koempf24.de/</description>
+
+    <file>src/</file>
+
+    <exclude-pattern>*/src/Kernel/*</exclude-pattern>
+
+    <rule ref="vendor/spryker/code-sniffer/SprykerStrict/ruleset.xml"/>
+    <rule ref="vendor/slevomat/coding-standard/SlevomatCodingStandard/Sniffs/TypeHints/DeclareStrictTypesSniff.php">
+        <properties>
+            <property name="linesCountBeforeDeclare" value="0"/>
+        </properties>
+    </rule>
+    <rule ref="Spryker">
+        <exclude name="SlevomatCodingStandard.Functions.DisallowTrailingCommaInDeclaration"/>
+        <exclude name="SlevomatCodingStandard.Functions.DisallowNamedArguments"/>
+        <exclude name="SlevomatCodingStandard.Classes.DisallowConstructorPropertyPromotion"/>
+        <exclude name="SlevomatCodingStandard.ControlStructures.DisallowNullSafeObjectOperator"/>
+    </rule>
+</ruleset>

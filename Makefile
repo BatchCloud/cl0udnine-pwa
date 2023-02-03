@@ -1,5 +1,6 @@
 MAKE = make --no-print-directory
 PHP = docker-compose exec php
+NPM = docker-compose run --rm --workdir="/var/www/assets" node
 
 # Colors
 GREEN	 := $(shell tput -Txterm setaf 2)
@@ -40,6 +41,15 @@ help: ##@other Show this help.
 	@perl -e '$(HELP_FUN)' $(MAKEFILE_LIST)
 .PHONY: help
 
+# COMPOSER #############################################################################################################
+
+composer-install: ##@composer run 'composer install' in container
+	$(PHP) /usr/bin/composer install --ansi --optimize-autoloader
+.PHONY: composer-install
+
+composer-update: ##@composer run 'composer update' in container
+	$(PHP) /usr/bin/composer update --ansi --optimize-autoloader
+.PHONY: composer-update
 
 # CONTAINER ############################################################################################################
 
@@ -59,6 +69,7 @@ restart: ##@container restart containers
 setup: ##@container Create dev enviroment
 	[[ -f .env ]] || cp .env.dist .env
 	$(MAKE) start
+	$(MAKE) composer-install
 .PHONY: setup
 
 rebuild: ##@container removes images
@@ -73,3 +84,35 @@ logs: ##@container show server logs
 cli: ##@container get shell in a container (defaults: php, make cli container=php)
 	docker-compose exec $(CONTAINER) /bin/sh
 .PHONY: cli
+
+# DATABASE #############################################################################################################
+
+
+# LINT #################################################################################################################
+
+lint: ##@lint run all linters
+	$(MAKE) phpcs
+	$(MAKE) phpstan
+.PHONY: yamllint
+
+phpcs: ##@lint php code sniffer with spryker strict ruleset
+	$(PHP) vendor/bin/phpcs
+.PHONY: phpcs
+
+phpcs-fix: ##@lint auto fix php code sniffer issues
+	$(PHP) vendor/bin/phpcbf
+.PHONY: phpcs-fix
+
+phpstan: ##@lint runs phpstan to analyse the codebase
+	$(PHP) vendor/bin/phpstan analyse
+.PHONY: phpstan
+
+build-frontend: ##@frontend production build of the frontend directory
+	$(NPM) npm install --unsafe-perm
+	$(NPM) npm run build
+.PHONY: build-frontend
+
+watch-frontend: ##@frontend watch-mode of the frontend directory
+	$(NPM) npm install --unsafe-perm
+	$(NPM) npm run watch
+.PHONY: watch-rollup

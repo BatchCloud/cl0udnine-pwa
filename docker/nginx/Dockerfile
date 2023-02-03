@@ -7,4 +7,3 @@ ENV PHP_UPSTREAM_PORT 9000
 CMD ["/bin/sh", "-c", "envsubst '${PHP_UPSTREAM_ADDR},${PHP_UPSTREAM_PORT}' < /etc/nginx/conf.d/default.conf.template > /etc/nginx/conf.d/default.conf && nginx -g 'daemon off;'"]
 
 WORKDIR "/var/www/public"
-
