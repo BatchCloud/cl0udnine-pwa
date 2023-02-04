@@ -23,4 +23,3 @@
 ###< phpunit/phpunit ###
 /assets/node_modules/
 /public/build/
-/public/dist/
