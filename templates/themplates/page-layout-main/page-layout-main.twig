@@ -1,0 +1,20 @@
+{% extends '/themplates/page-blank/page-blank.twig' %}
+
+{%- block class -%}bg-black text-white w-full sm:w-screen overflow-x-hidden select-none sm:select-auto{%- endblock -%}
+
+{% block body %}
+    <div class="flex flex-col min-h-[100vh] max-w-[1280px] mx-auto px-4 xl:px-0 ">
+        {% block header %}
+            {% include 'components/organisms/header/header.html.twig' only %}
+        {% endblock %}
+
+        <div id="content">
+            {% block contentBefore %}{% endblock %}
+            {% block content %}{% endblock %}
+            {% block contentAfter %}{% endblock %}
+
+            {% block footer %}
+            {% endblock %}
+        </div>
+    </div>
+{% endblock %}

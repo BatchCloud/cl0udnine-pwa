@@ -1,0 +1,54 @@
+{% extends 'base.html.twig' %}
+
+{% set data = {
+    locale: 'de',
+    title: 'cl0udnine',
+    metaTitle: 'cl0udnine',
+    metaDescription: '',
+    metaKeywords: '',
+    appLocale: 'de-DE',
+} %}
+
+{% block template %}
+    <!DOCTYPE html>
+    <html lang="{{ data.locale }}" data-locale="{{ data.appLocale }}">
+    <head>
+        {% block meta %}
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+            <meta name="title" content="{% block metaTitle %}{{ data.metaTitle }}{% endblock %}">
+            <meta name="description" content="{% block metaDescription %}{{ data.metaDescription }}{% endblock %}">
+            <meta name="keywords" content="{% block metaKeywords %}{{ data.metaKeywords }}{% endblock %}">
+
+            <meta name="msapplication-TileColor" content="#000000">
+            <meta name="theme-color" content="#000">
+
+            <link rel="icon" type="image/x-icon" href="/favicon.ico">
+            <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+            <link rel="icon" type="image/png" sizes="32x32" href="/icons/favicon-32x32.png">
+            <link rel="icon" type="image/png" sizes="16x16" href="/icons/favicon-16x16.png">
+            <link rel="mask-icon" href="/icons/safari-pinned-tab.svg" color="#000000">
+            <link rel="manifest" href="/manifest.json">
+        {% endblock %}
+
+        {% block headStyles %}
+            <link href="/dist/main.css" rel="stylesheet">
+        {% endblock %}
+
+        {% block headScripts %}
+        {% endblock %}
+
+        <title>{% block headTitle %}{{ data.title }}{% endblock %}</title>
+    </head>
+    <body {%- if block('class') is not empty %} class="{%- block class -%}{%- endblock -%}"{%- endif %}>
+
+        {{ parent() }}
+
+        {% block footerScripts %}
+            <script defer src="/dist/cdn.min.js"></script>
+            <script defer src="/dist/main.js"></script>
+            {% block deferred %}{% endblock %}
+        {% endblock %}
+    </body>
+    </html>
+{% endblock %}

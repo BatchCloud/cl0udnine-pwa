@@ -18,7 +18,22 @@ class HomeController extends AbstractController
     public function indexAction(Request $request): Response
     {
         return $this->render(
-            'home/index.html.twig',
+            'views/home/index.html.twig',
+            [
+            ],
+        );
+    }
+
+    /**
+     * @param \Symfony\Component\HttpFoundation\Request $request
+     *
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    #[\Symfony\Component\Routing\Annotation\Route('/profile', name: 'profile')]
+    public function profileAction(Request $request): Response
+    {
+        return $this->render(
+            'views/user/index.html.twig',
             [
             ],
         );

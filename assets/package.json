@@ -4,11 +4,14 @@
   "description": "cl0udnine socal network",
   "scripts": {
     "build": "cp ./node_modules/alpinejs/dist/cdn.min.js ../public/dist/",
+    "main": "cp ./scripts/main.js ../public/dist/",
+    "buildw": "cp ./worker/worker.js ../public/",
     "watch": "tailwindcss -i ./css/style.css -o ../public/dist/main.css --watch"
   },
   "author": "BatchCloud (Sebastian Steininger)",
   "license": "ISC",
   "dependencies": {
+    "@tabler/icons-webfont": "^2.2.0",
     "alpinejs": "^3.11.1",
     "tailwindcss": "^3.2.4"
   }

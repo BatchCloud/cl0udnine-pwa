@@ -1,0 +1,47 @@
+
+{%- set config = {
+    name: '',
+    jsName: 'js-' ~ config.name,
+    tag: 'div'
+} | merge(config | default({})) -%}
+
+{%- set data = data | default({}) -%}
+{%- set embed = embed | default({}) -%}
+
+{%- set class = class | default('') -%}
+{%- set modifiers = modifiers | default([]) -%}
+{%- set attributes = attributes | default({}) -%}
+
+{% macro renderClass(name, modifiers, extra) %}
+    {{-name | trim-}}
+    {%- for modifier in modifiers -%}{%- if modifier | trim is not empty %} {{name}}--{{modifier | trim}}{% endif -%}{% endfor -%}
+    {%- if extra %} {{extra-}}{% endif -%}
+{%- endmacro -%}
+
+{% macro renderAttributes(attributes) %}
+    {%- for name, value in attributes -%}
+        {%- if value is same as(true) -%}
+            {{-' ' ~ name-}}
+        {%- elseif value is not same as(false) -%}
+            {{-' ' ~ name-}}='{{-value-}}'
+        {%- endif -%}
+    {%- endfor -%}
+{%- endmacro -%}
+
+{% import _self as component %}
+
+{% block component %}
+    <{{-config.tag}} class="
+    {%- if config.name == config.tag and '-' in config.tag -%}custom-element {% endif -%}
+
+    {%- block class -%}
+        {{- component.renderClass(config.name, modifiers, class) -}}
+        {% block extraClass %}{% endblock %}
+    {%- endblock -%}"
+
+    {%- block attributes -%}
+        {{- component.renderAttributes(attributes) -}}
+    {%- endblock -%}>
+    {%- block body -%}{%- endblock -%}
+    </{{-config.tag-}}>
+{% endblock -%}

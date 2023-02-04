@@ -1,0 +1,22 @@
+{% extends 'components/component.html.twig' %}
+
+{% set config = {
+    name: 'icon',
+    tag: 'svg',
+} %}
+
+{% set data = {
+    name: '',
+    url: '/icons/tabler-sprite.svg#' ~ data.name
+} | merge(data | default({})) %}
+
+{% set attributes = {
+    title: data.name,
+} | merge(attributes | default({})) %}
+
+{% set class = class | default('shrink-0 h-5 w-5') %}
+
+
+{% block body %}
+    <use href="{{ data.url }}" xlink:href="{{ data.url }}"></use>
+{% endblock %}

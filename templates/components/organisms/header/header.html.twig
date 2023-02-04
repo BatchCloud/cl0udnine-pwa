@@ -1,0 +1,42 @@
+{% extends 'components/component.html.twig' %}
+
+{% set config = {
+    name: 'header',
+    tag: 'div',
+} %}
+
+{% set data = {
+    name: '',
+} | merge(data | default({})) %}
+
+{% set class = 'sticky top-0 z-30 -mb-2' %}
+
+{% block body %}
+    <div class="flex bg-black py-6 gap-4">
+        <div class="flex flex-1 gap-4">
+            {#{% include 'components/atoms/button/button.html.twig' with {
+                data: {
+                    name: 'Suche',
+                    icon: 'tabler-search',
+                    url: '/search'
+                },
+            } only %}#}
+            {% include 'components/atoms/button/button.html.twig' with {
+                data: {
+                    name: 'Nachrichten',
+                    icon: 'tabler-message-2',
+                    url: '/'
+                },
+            } only %}
+        </div>
+        {% include 'components/atoms/button/button.html.twig' with {
+            data: {
+                name: 'Konto',
+                title: 'Basti',
+                icon: 'tabler-user',
+                url: '/profile'
+            },
+        } only %}
+    </div>
+    <div class="w-full h-2 bg-gradient-to-b from-black to-transparent"></div>
+{% endblock %}

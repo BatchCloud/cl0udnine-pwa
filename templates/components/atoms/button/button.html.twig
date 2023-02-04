@@ -1,0 +1,35 @@
+{% extends 'components/component.html.twig' %}
+
+{% set config = {
+    name: 'button',
+    tag: 'a',
+} %}
+
+{% set data = {
+    name: '',
+    title: '',
+    icon: '',
+    url: '',
+    active: (app.request.pathInfo == data.url),
+} | merge(data | default({})) %}
+
+{% set attributes = {
+    title: data.name,
+    href: data.url,
+} | merge(attributes | default({})) %}
+
+{% set class = class | default('group min-w-[50px] h-[50px] hover:bg-white rounded-full inline-flex justify-center items-center cursor-pointer transition-colors outline-none ' ~ (data.active ? 'bg-zinc-900' : '')) %}
+
+{% block body %}
+    {% if data.icon %}
+        {% include 'components/atoms/icon/icon.html.twig' with {
+            class: 'relative shrink-0 h-6 w-6 mx-2.5 group-hover:text-gray-700 transition-colors ' ~ (data.active ? 'text-gray-100' : 'text-gray-400'),
+            data: {name: data.icon}
+        } only %}
+    {% endif %}
+    {% if data.title %}
+        <p class="group-hover:text-gray-800 transition-colors -ml-[6px] pl-1 pr-4 font-medium overflow-hidden text-ellipsis whitespace-nowrap select-none {{ data.active ? 'text-gray-100' : 'text-gray-400' }}">
+            {{ data.title }}
+        </p>
+    {% endif %}
+{% endblock %}
