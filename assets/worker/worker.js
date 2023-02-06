@@ -1,4 +1,4 @@
-const VERSION = '1.0.4';
+const VERSION = '1.0.5';
 
 self.addEventListener('install', self.skipWaiting);
 
@@ -9,9 +9,6 @@ self.addEventListener('activate', (event) => {
             return caches.delete(key);
         }));
     }));
-});
-self.addEventListener("activate", (event) => {
-    event.waitUntil(self.registration?.navigationPreload.enable());
 });
 
 self.addEventListener('fetch', (event) => {
