@@ -1,0 +1,39 @@
+{% extends 'components/molecules/modal/modal.html.twig' %}
+
+{% set data = {
+    id: 'worker-update-modal',
+    title: 'App Update',
+    width: 'sm',
+    close: false,
+} %}
+
+
+
+{% block body %}
+    <div class="p-4 md:p-8">
+        <div
+            x-ref="title"
+            class="font-medium mr-8 text-xl"
+        >Update</div>
+        <div
+            x-ref="content"
+            class="mt-3 overflow-x-auto"
+        >
+            Das neue Content Update wurde erfolgreich installiert.
+        </div>
+
+    </div>
+    <div
+        x-ref="actions"
+        class="bg-zinc-800 p-4"
+    >
+        <div class="flex justify-end">
+            <button
+                    x-on:click="location.reload();"
+                    type="button"
+                    class="button button-primary"
+            >Schließen</button>
+        </div>
+    </div>
+{% endblock %}
+

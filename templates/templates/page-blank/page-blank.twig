@@ -45,8 +45,8 @@
         {{ parent() }}
 
         {% block footerScripts %}
-            <script defer src="/dist/cdn.min.js"></script>
             <script defer src="/dist/main.js"></script>
+            <script defer src="/dist/cdn.min.js"></script>
             {% block deferred %}{% endblock %}
         {% endblock %}
     </body>

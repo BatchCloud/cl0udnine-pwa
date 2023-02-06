@@ -1,0 +1,6 @@
+<div
+        x-data="modalStack"
+        x-component="modalStack"
+        x-init="$watch('items', items => $scrollLock(items.length > 0, items.length === 0))"
+        x-on:keyup.escape.document.prevent="remove()"
+></div>

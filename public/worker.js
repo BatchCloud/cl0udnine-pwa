@@ -1,4 +1,4 @@
-const VERSION = '1.0.1';
+const VERSION = '1.0.3';
 
 self.addEventListener('install', self.skipWaiting);
 
@@ -10,6 +10,9 @@ self.addEventListener('activate', (event) => {
         }));
     }));
 });
+self.addEventListener("activate", (event) => {
+    event.waitUntil(self.registration?.navigationPreload.enable());
+});
 
 self.addEventListener('fetch', (event) => {
     event.respondWith((async () => {
@@ -19,7 +22,7 @@ self.addEventListener('fetch', (event) => {
             const response = await fetch(event.request);
             if(!event.request.url.includes('/api')) {
                 const cache = await caches.open(VERSION);
-                //cache.put(event.request, response.clone());
+                cache.put(event.request, response.clone());
             }
             return response;
         }
