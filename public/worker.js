@@ -29,13 +29,13 @@
 //     })());
 // });
 
-const version = '1.0.8';
+const version = '1.0.9';
 let staticName = `staticCache-${version}`;
 let dynamicName = `dynamicCache`;
 let imageName = `imageCache-${version}`;
 
 //starter html and css and js files
-let assets = ['/', '/dist/style.css', '/dist/main.js'];
+let assets = ['/dist/cdn.min.css', '/dist/main.css', '/dist/main.js'];
 //starter images
 let imageAssets = ['/icons/tabler-sprite.svg'];
 
