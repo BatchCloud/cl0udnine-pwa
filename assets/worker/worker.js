@@ -29,7 +29,7 @@
 //     })());
 // });
 
-const version = '1.0.7';
+const version = '1.0.8';
 let staticName = `staticCache-${version}`;
 let dynamicName = `dynamicCache`;
 let imageName = `imageCache-${version}`;
@@ -52,7 +52,7 @@ self.addEventListener('install', (ev) => {
                         console.log(`${staticName} has been updated.`);
                     },
                     (err) => {
-                        console.warn(`failed to update ${staticName}.`);
+                        console.log(`failed to update ${staticName}.`);
                     }
                 );
             })
@@ -63,7 +63,7 @@ self.addEventListener('install', (ev) => {
                             console.log(`${imageName} has been updated.`);
                         },
                         (err) => {
-                            console.warn(`failed to update ${staticName}.`);
+                            console.log(`failed to update ${staticName}.`);
                         }
                     );
                 });
