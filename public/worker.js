@@ -29,8 +29,8 @@
 //     })());
 // });
 
-const version = '1.0.9';
-let staticName = `staticCache-${version}`;
+const version = '1.0.10';
+let staticName = `staticCache1-${version}`;
 let dynamicName = `dynamicCache`;
 let imageName = `imageCache-${version}`;
 
@@ -52,7 +52,7 @@ self.addEventListener('install', (ev) => {
                         console.log(`${staticName} has been updated.`);
                     },
                     (err) => {
-                        console.log(`failed to update ${staticName}.`);
+                        console.log(`failed to update ${staticName}.`, err);
                     }
                 );
             })
