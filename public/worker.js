@@ -29,7 +29,7 @@
 //     })());
 // });
 
-const version = '1.1.1';
+const version = '1.1.2';
 let staticName = `staticCache-${version}`;
 let dynamicName = `dynamicCache`;
 let imageName = `imageCache-${version}`;
