@@ -29,20 +29,18 @@
 //     })());
 // });
 
-const version = '1.0.10';
-let staticName = `staticCache1-${version}`;
+const version = '1.1.1';
+let staticName = `staticCache-${version}`;
 let dynamicName = `dynamicCache`;
 let imageName = `imageCache-${version}`;
 
 //starter html and css and js files
-let assets = ['/dist/cdn.min.css', '/dist/main.css', '/dist/main.js'];
+let assets = ['/', '/profile', '/manifest.json', '/dist/cdn.min.js', '/dist/main.css', '/dist/main.js'];
 //starter images
-let imageAssets = ['/icons/tabler-sprite.svg'];
+let imageAssets = ['/favicon.ico', '/icons/android-chrome-192x192.png', '/icons/tabler-sprite.svg'];
 
 self.addEventListener('install', (ev) => {
-    console.log(`Version ${version} installed`);
-    // build a cache
-    ev.waitUntil(
+    self.skipWaiting().then(
         caches
             .open(staticName)
             .then((cache) => {
@@ -68,7 +66,44 @@ self.addEventListener('install', (ev) => {
                     );
                 });
             })
-    );
+            .then(() => console.log(`Version ${version} installed`))
+    )
+});
+
+self.addEventListener('installs', (ev) => {
+    console.log(`Version ${version} installed`);
+
+    // build a cache
+    caches
+        .open(staticName)
+        .then((cache) => {
+             cache.addAll(assets).then(
+                () => {
+                    //addAll == fetch() + put()
+                    console.log(`${staticName} has been updated.`);
+                    console.log('test', ev)
+                    console.log('test', self)
+                    self.skipWaiting;
+                },
+                (err) => {
+                    console.log(`failed to update ${staticName}.`, err);
+                }
+            );
+        })
+        /*.then(() => {
+            caches.open(imageName).then((cache) => {
+                cache.addAll(imageAssets).then(
+                    () => {
+                        console.log(`${imageName} has been updated.`);
+
+                    },
+                    (err) => {
+                        console.log(`failed to update ${staticName}.`);
+                    }
+                );
+            });
+        })*/
+
 });
 
 self.addEventListener('activate', (ev) => {
@@ -85,7 +120,10 @@ self.addEventListener('activate', (ev) => {
                             return true;
                         }
                     })
-                    .map((key) => caches.delete(key))
+                    .map((key) => {
+                        console.log(`Cache wurde gelöscht: ${key}`)
+                        caches.delete(key)
+                    })
             ).then((empties) => {
                 //empties is an Array of boolean values.
                 //one for each cache deleted
@@ -112,7 +150,7 @@ self.addEventListener('fetch', (ev) => {
                         opts.mode = 'cors';
                         opts.credentials = 'omit';
                     }
-                    return fetch(ev.request.url, opts).then(
+                    return fetch(ev.request.url).then(
                         (fetchResponse) => {
                             //we got a response from the server.
                             if (fetchResponse.ok) {
@@ -121,8 +159,8 @@ self.addEventListener('fetch', (ev) => {
                             //not ok 404 error
                             if (fetchResponse.status == 404) {
                                 //TODO: ses check if route then 404 or no internet
+                                console.log('404 error')
                                 if (ev.request.url.match(/\.html/i)) {
-                                    console.log('404 error')
                                     return caches.open(staticName).then((cache) => {
                                         return cache.match('/404.html');
                                     });
@@ -142,6 +180,7 @@ self.addEventListener('fetch', (ev) => {
                             //TODO: ses check 404 or no internet
                             //this is the network failure
                             //return the 404.html file if it is a request for an html file
+                            console.log('404 error internet')
                             if (ev.request.url.match(/\.html/i)) {
                                 return caches.open(staticName).then((cache) => {
                                     return cache.match('/404.html');
