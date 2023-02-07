@@ -59,7 +59,10 @@ function system() {
         init() {
 
             if ('serviceWorker' in navigator) {
-                navigator.serviceWorker.register('/worker.js');
+                navigator.serviceWorker.register('/worker.js').then(reg => {
+                    // check for updates to the service working on change of route
+                    reg.update();
+                });
                 navigator.serviceWorker.addEventListener('controllerchange', () => {
                     console.log('Update Worker')
                     this.$modal.open('worker-update-modal')

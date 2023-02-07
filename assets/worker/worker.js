@@ -1,52 +1,21 @@
-// const VERSION = '1.0.6';
-
-// self.addEventListener('install', self.skipWaiting);
-
-// self.addEventListener('activate', (event) => {
-//     event.waitUntil(caches.keys().then((keys) => {
-//         return Promise.all(keys.map((key) => {
-//             if(key === VERSION) return;
-//             return caches.delete(key);
-//         }));
-//     }));
-// });
-
-// self.addEventListener('fetch', (event) => {
-//     event.respondWith((async () => {
-//         const file = await caches.match(event.request);
-//         if(file) return file;
-//         try {
-//             const response = await fetch(event.request);
-//             if(!event.request.url.includes('/api')) {
-//                 const cache = await caches.open(VERSION);
-//                 cache.put(event.request, response.clone());
-//             }
-//             return response;
-//         }
-//         catch(error) {
-//            // console.error(error);
-//         }
-//     })());
-// });
-
 const version = '1.1.4';
+
 let staticName = `staticCache-${version}`;
-let dynamicName = `dynamicCache`;
 let imageName = `imageCache-${version}`;
+let dynamicName = `dynamicCache`;
 
 //starter html and css and js files
-let assets = ['/', '/profile', '/manifest.json', '/dist/cdn.min.js', '/dist/main.css', '/dist/main.js'];
+let assets = ['/', '/profile', '/dist/404.html', '/manifest.json', '/dist/cdn.min.js', '/dist/main.css', '/dist/main.js'];
 //starter images
 let imageAssets = ['/favicon.ico', '/icons/android-chrome-192x192.png', '/icons/tabler-sprite.svg'];
 
 self.addEventListener('install', (ev) => {
-    self.skipWaiting().then(
-        caches
+    self.skipWaiting()
+        .then(caches
             .open(staticName)
             .then((cache) => {
                 cache.addAll(assets).then(
                     () => {
-                        //addAll == fetch() + put()
                         console.log(`${staticName} has been updated.`);
                     },
                     (err) => {
@@ -67,67 +36,27 @@ self.addEventListener('install', (ev) => {
                 });
             })
             .then(() => console.log(`Version ${version} installed`))
-    )
-});
-
-self.addEventListener('installs', (ev) => {
-    console.log(`Version ${version} installed`);
-
-    // build a cache
-    caches
-        .open(staticName)
-        .then((cache) => {
-             cache.addAll(assets).then(
-                () => {
-                    //addAll == fetch() + put()
-                    console.log(`${staticName} has been updated.`);
-                    console.log('test', ev)
-                    console.log('test', self)
-                    self.skipWaiting;
-                },
-                (err) => {
-                    console.log(`failed to update ${staticName}.`, err);
-                }
-            );
-        })
-        /*.then(() => {
-            caches.open(imageName).then((cache) => {
-                cache.addAll(imageAssets).then(
-                    () => {
-                        console.log(`${imageName} has been updated.`);
-
-                    },
-                    (err) => {
-                        console.log(`failed to update ${staticName}.`);
-                    }
-                );
-            });
-        })*/
-
+        );
 });
 
 self.addEventListener('activate', (ev) => {
     // when the service worker has been activated to replace an old one.
     //Extendable Event
-    console.log('activated');
+    console.log(`Version ${version} activated`);
     // delete old versions of caches.
     ev.waitUntil(
         caches.keys().then((keys) => {
-            return Promise.all(
-                keys
-                    .filter((key) => {
-                        if (key != staticName && key != imageName) {
-                            return true;
-                        }
-                    })
-                    .map((key) => {
-                        console.log(`Cache wurde gelöscht: ${key}`)
-                        caches.delete(key)
-                    })
-            ).then((empties) => {
-                //empties is an Array of boolean values.
-                //one for each cache deleted
-            });
+            return Promise.all(keys
+                .filter((key) => {
+                    if (key != staticName && key != imageName) {
+                        return true;
+                    }
+                })
+                .map((key) => {
+                    console.log(`Cache wurde gelöscht: ${key}`)
+                    caches.delete(key)
+                })
+            )
         })
     );
 });
